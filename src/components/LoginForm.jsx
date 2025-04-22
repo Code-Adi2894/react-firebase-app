@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { app } from "../config/firebase";
 import {
   getAuth,
@@ -8,7 +8,7 @@ import {
 // Initialize Firebase Authentication and get a reference to the service
 const auth = getAuth(app);
 
-const LoginForm = ({ getIsNewUser, getIsLoggedIn }) => {
+const LoginForm = ({ getIsNewUser, getIsLoggedIn, getCurrentUser }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -18,6 +18,7 @@ const LoginForm = ({ getIsNewUser, getIsLoggedIn }) => {
     // You can add authentication logic here
     await signInWithEmailAndPassword(auth, email, password)
       .then(() => {
+        getCurrentUser(auth.currentUser)
         getIsLoggedIn(true);
       })
       .catch((err) => {
@@ -30,6 +31,7 @@ const LoginForm = ({ getIsNewUser, getIsLoggedIn }) => {
     e.preventDefault();
     getIsNewUser(true);
   };
+
 
   return (
     <form onSubmit={handleSubmit} style={styles.form}>
