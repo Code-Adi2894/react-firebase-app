@@ -1,21 +1,27 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../AuthContext";
+import { getAuth, signOut } from "firebase/auth";
 
-const NavBar = () => {
- const currentUser = useContext(AuthContext);
+const auth = getAuth();
+
+const NavBar = ({ getIsLoggedOut }) => {
+  const currentUser = useContext(AuthContext);
   const handleSignOut = () => {
+    signOut(auth)
+      .then(() => getIsLoggedOut(false))
+      .catch((err) => console.log(err.code));
   };
 
   return (
     <nav style={styles.nav}>
       <h2>MyApp</h2>
       <div style={styles.userSection}>
-          <>
-            <span style={styles.email}>{currentUser.email}</span>
-            <button onClick={handleSignOut} style={styles.button}>
-              Sign Out
-            </button>
-          </>
+        <>
+          <span style={styles.email}>{currentUser.email}</span>
+          <button onClick={handleSignOut} style={styles.button}>
+            Sign Out
+          </button>
+        </>
       </div>
     </nav>
   );

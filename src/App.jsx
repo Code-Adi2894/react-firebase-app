@@ -17,9 +17,9 @@ function App() {
     <>
       {isLoggedIn ? (
         <AuthContext.Provider value={currentUser}>
-          <NavBar />
+          <NavBar getIsLoggedOut={(data) => setIsLoggedIn(data)} />
           <TodoApp />
-          </AuthContext.Provider>
+        </AuthContext.Provider>
       ) : isNewUser ? (
         <SignupForm isNewUser={(data) => setIsNewUser(data)} />
       ) : (
